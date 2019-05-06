@@ -1,7 +1,6 @@
 <template>
-  <div>
+  <div v-title data-title="首页">
     <img src="./images/course-banner.jpg" width="100%"/>
-    测试git提交
   </div>
 </template>
 

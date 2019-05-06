@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-title data-title="注册">
         <div style="width: 30%; margin: 200px auto;">
             <Form :model="formItem" :label-width="80">
                 <FormItem label="昵称">
