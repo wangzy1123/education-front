@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
       "/education": {
         // todo 这边要改下后台接口地址
-        target: 'http://10.0.0.48:8081', // education
+        target: 'http://localhost:8081', // education
         secure: false,
         changeOrigin: true,
         pathRewrite: {

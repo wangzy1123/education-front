@@ -18,9 +18,9 @@
       <div style="float: right; margin-right: 100px;">
         <menu-item name="5" v-show="isLogin">
           <Dropdown trigger="click" style="margin-left: 20px" @on-click="changeMenu">
-            <img src="./components/images/4523636_07.jpg" class="getgold_top_head_img"/>
+            <Avatar :src="headImg"></Avatar>
             <DropdownMenu slot="list">
-              <DropdownItem name="userInfo">个人信息</DropdownItem>
+              <DropdownItem name="userInfo">个人中心</DropdownItem>
               <DropdownItem name="logout">注销</DropdownItem>
             </DropdownMenu>
           </Dropdown>
@@ -28,7 +28,7 @@
       </div>
     </Menu>
 
-    <Modal v-model="loginModal" width="400">
+    <Modal v-model="loginModal" width="400" :closable="false">
       <div>
         <Input placeholder="账号/手机号码" v-model="userName" icon="ios-person-outline" style="margin-top: 20px;"></Input>
         <Input placeholder="密码" type="password" v-model="pwd" icon="md-lock" style="margin-top: 20px;"></Input>
@@ -58,6 +58,7 @@
       return {
         userName: '',
         pwd: '',
+        headImg: '',
         isLogin: false,
         loginModal: false,
         loginUserName: '',
@@ -71,6 +72,7 @@
         console.log(JSON.parse(localStorage.getItem('loginUser')))
         this.isLogin = true;
         this.loginUserName = JSON.parse(localStorage.getItem('loginUser')).userName;
+        this.headImg = JSON.parse(localStorage.getItem('loginUser')).headImg;
       }
       this.createCode();
     },
@@ -84,6 +86,9 @@
         } else if (name == 'logout') {
           // 注销
           this.logout();
+          this.$router.push({
+            path: "/"
+          });
         }
       },
       loginIt(){
@@ -116,9 +121,16 @@
               content: res.errorMessage
             });
             localStorage.setItem('loginUser', JSON.stringify(res.data));
+            localStorage.setItem('userId', res.data.userId);
             this.loginModal = false;
             this.isLogin = true;
             this.loginUserName = JSON.parse(localStorage.getItem('loginUser')).userName;
+            let headImage = JSON.parse(localStorage.getItem('loginUser')).headImg;
+            if(headImage === '' || !headImage){
+              this.headImg = require('./components/images/defaultHeadImg.jpg');
+            }else{
+              this.headImg = headImage;
+            }
             this.$router.push({
               path: '/'
             });
